@@ -1,0 +1,10 @@
+# Native desktop app (no Gradio). Install PyTorch first from the CPU or CUDA index, as in README.md.
+torch>=2.8
+torchvision>=0.23
+numpy>=2.4,<2.5
+opencv-python>=5.0,<6
+scipy>=1.17,<1.18
+scikit-image>=0.26,<0.27
+safetensors>=0.8,<0.9
+Pillow>=11,<13
+PySide6>=6.8,<7

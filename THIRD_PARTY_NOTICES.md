@@ -31,6 +31,19 @@ Each remains subject to its own upstream license and distribution terms.
 FFmpeg, when installed separately for CPU encoding, also retains its own terms,
 which depend on the chosen build and enabled codecs.
 
+## Desktop Release Bundle
+
+The Windows release built by `build_desktop.ps1` / `build_installer.ps1`
+redistributes, in its `_internal` folder: the Python runtime, PySide6 / Qt
+(LGPL v3, including Qt's FFmpeg-based playback libraries), PyTorch,
+torchvision, NumPy, OpenCV, SciPy, scikit-image, safetensors and Pillow, each
+under its own license; the ISNet checkpoint and hand images described above;
+and an unmodified static FFmpeg build (`_internal/ffmpeg/ffmpeg.exe`, GPL v3),
+shipped with its `LICENSE`, its build `README.txt` naming the source commit,
+and `FFMPEG-NOTICE.txt`. Handdraw Studio runs that FFmpeg as a separate
+program. Confirm the redistribution terms for the checkpoint and hand images
+before publishing a release.
+
 ## Original Work
 
 Original project code contributed by `letuandat131` is dedicated to the public

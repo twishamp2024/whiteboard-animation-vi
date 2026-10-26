@@ -19,3 +19,7 @@ assets/v181d/model.safetensors
 Thumbs.db
 .DS_Store
 handdraw-source.zip
+build/
+dist/
+dist-*/
+release/

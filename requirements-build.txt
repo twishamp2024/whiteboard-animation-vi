@@ -1,0 +1,4 @@
+# Pinned tools for reproducible desktop/installer builds (see build_desktop.ps1).
+# Inno Setup 6 (ISCC.exe) is installed separately: winget install --id JRSoftware.InnoSetup -e --scope user
+pyinstaller==6.22.3
+pyinstaller-hooks-contrib==2026.9

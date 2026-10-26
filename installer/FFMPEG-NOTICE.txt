@@ -1,0 +1,19 @@
+FFmpeg in Handdraw Studio
+=========================
+
+This folder contains ffmpeg.exe, an unmodified static Windows build of FFmpeg
+from https://www.gyan.dev/ffmpeg/builds/ . Handdraw Studio runs it as a separate
+program (piping raw frames to it) to encode MP4 video with libx264.
+
+License: this FFmpeg build is licensed under the GNU General Public License,
+version 3 (see LICENSE in this folder). It is distributed separately from, and
+not combined with, the Handdraw Studio code.
+
+Version and source: README.txt in this folder names the exact FFmpeg version,
+the build configuration and the FFmpeg source commit the build was made from.
+The corresponding source code is available from that commit link and from
+https://ffmpeg.org/download.html ; build scripts and third-party library
+sources used by the build are listed at https://www.gyan.dev/ffmpeg/builds/ .
+
+To use a different FFmpeg, set the FFMPEG_BINARY environment variable to the
+full path of an ffmpeg.exe before starting Handdraw Studio.

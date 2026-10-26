@@ -185,6 +185,76 @@ native label, default, bounds, step, and choices. Advanced JSON starts with the
 native rig/filter defaults; protected rig and dedicated wrist keys are excluded.
 The backend validates all settings before rendering.
 
+## DESKTOP APP (HANDDRAW STUDIO)
+
+A native Qt (PySide6) window that calls the renderer directly, with no browser
+or local server. It exposes the same `Settings` controls as the Gradio UI
+(generated from the same metadata), plus:
+
+- drag-and-drop, **Ctrl+O** or **Ctrl+V** to load an image; **Ctrl+Enter** / **F5** to render;
+  **Esc** cancels (the partial MP4 is removed);
+- live progress with time remaining, a looping in-app player, and the JSON render report;
+- automatic CPU / CPU H.264 selection when CUDA or NVENC is unavailable (shown, not silent);
+- one-click verified model download, presets (load/save JSON) and remembered settings.
+
+Install (Python 3.11+; PyTorch from the CPU or CUDA index as above), then launch:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-desktop.txt
+.\.venv\Scripts\pythonw.exe HanddrawStudio.pyw
+# or with an image: .\.venv\Scripts\python.exe -m desktop path\to\image.png
+```
+
+Videos are saved to `Videos\Handdraw Studio` (changeable from **File**). Logs go to
+`%LOCALAPPDATA%\Handdraw\Handdraw Studio\logs`. Run from source, the app uses the
+FFmpeg on `PATH`; release builds bundle their own (below).
+
+### Windows release build and installer
+
+Prerequisites: the `.venv` above, the verified model (`scripts\download_model.py`),
+an FFmpeg build with `bin\ffmpeg.exe`, `LICENSE` and `README.txt` (e.g. the
+gyan.dev build from `winget install Gyan.FFmpeg`), and Inno Setup 6:
+
+```powershell
+winget install --id JRSoftware.InnoSetup -e --scope user
+```
+
+1. Build the standalone app folder. The script installs the pinned build tools
+   (`requirements-build.txt`), refuses to build without the verified model,
+   bundles FFmpeg (from `-FFmpegDir`, or the one on `PATH`) with its GPL license,
+   build README and `installer\FFMPEG-NOTICE.txt`, and runs the built app's
+   `--self-test` (a CPU render including character segmentation):
+
+   ```powershell
+   .\build_desktop.ps1 -DistPath dist-release
+   ```
+
+2. Package it with Inno Setup. The script checks the bundle for the executable,
+   torchvision's native ops, the model and FFmpeg, then writes
+   `release\HanddrawStudio-<version>-Setup.exe` and a `.sha256` file next to it:
+
+   ```powershell
+   .\build_installer.ps1 -BuildDir dist-release\HanddrawStudio
+   ```
+
+Windows blocks `.ps1` files under its default (Restricted) execution policy. Allow
+local scripts for your account once with
+`Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`, or run each script as
+`powershell -ExecutionPolicy Bypass -File .\build_desktop.ps1 ...`.
+
+The installer installs for the current user by default (no administrator rights;
+`%LOCALAPPDATA%\Programs\Handdraw Studio`), offers an all-users install, lets you
+choose the folder, adds a Start Menu shortcut and an optional desktop shortcut,
+and registers an uninstaller in **Settings > Apps**. Upgrades replace the
+program files in place. The app never writes into its installation folder, and
+uninstalling leaves user data untouched: settings
+(`HKCU\Software\Handdraw\Handdraw Studio`), logs
+(`%LOCALAPPDATA%\Handdraw\Handdraw Studio\logs`) and rendered videos.
+
+The app uses its bundled `ffmpeg.exe` unless the `FFMPEG_BINARY` environment
+variable points to another one. Running `.\build_desktop.ps1` with no arguments
+still builds `dist\HanddrawStudio` for local use.
+
 ## TESTS
 
 ```powershell
